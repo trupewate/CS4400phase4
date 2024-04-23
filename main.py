@@ -6,7 +6,7 @@ try:
     connection = mc.connect(host='localhost',
                                          database='drone_dispatch',
                                          user='root',
-                                         password='') #enter your password
+                                         password='kronoserj1418') #enter your password
     if connection.is_connected():
         db_Info = connection.get_server_info()
         print("Connected to MySQL Server version ", db_Info)
