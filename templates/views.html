@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<head lang="en">
-    <meta charset="utf-8"
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="jumbotron text-center">
-        <h1>Drone Dispatch System</h1>
-        <!-- <p>Resize this responsive page to see the effect!</p> -->
-      </div>
+{% extends 'base.html' %}
 
+{% block body %}
+<div class="container">
     <div class="row text-center">
         <a class="col btn btn-primary" href="{{ url_for('show_table', name='role_distribution') }}">Role distribution</a>
         <a class="col btn btn-primary" href="{{ url_for('show_table', name='customer_credit_check') }}">Customer credit check</a>
@@ -35,4 +27,5 @@
             {% endfor %}
         </table>
     </div>
-</body>
+</div>
+{% endblock %}
