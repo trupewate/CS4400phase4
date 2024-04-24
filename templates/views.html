@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="utf-8"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Drone Dispatch System</h1>
+        <!-- <p>Resize this responsive page to see the effect!</p> -->
+      </div>
+
+    <div class="row text-center">
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='role_distribution') }}">Role distribution</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='customer_credit_check') }}">Customer credit check</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='drone_pilot_roster') }}">Drone pilot roster</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='drone_traffic_control') }}">Drone traffic control</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='store_sales_overview') }}">Store sales overview</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='most_popular_products') }}">Most popular products</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_table', name='orders_in_progress') }}">Orders in progress</a>
+    </div>
+    <div class="container">
+        <table class="table">
+            <tr>
+                {% for col in columns %}
+                <td scope="col">{{col}}</th>
+                {% endfor %}
+            </tr>
+            {% for row in rows %}
+            <tr>
+                {% for entry in row %}
+                <td>{{entry}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
