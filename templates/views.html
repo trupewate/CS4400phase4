@@ -3,13 +3,13 @@
 {% block body %}
 <div class="container">
     <div class="row text-center">
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='role_distribution') }}">Role distribution</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='customer_credit_check') }}">Customer credit check</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='drone_pilot_roster') }}">Drone pilot roster</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='drone_traffic_control') }}">Drone traffic control</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='store_sales_overview') }}">Store sales overview</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='most_popular_products') }}">Most popular products</a>
-        <a class="col btn btn-primary" href="{{ url_for('show_table', name='orders_in_progress') }}">Orders in progress</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='role_distribution') }}">Role distribution</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='customer_credit_check') }}">Customer credit check</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='drone_pilot_roster') }}">Drone pilot roster</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='drone_traffic_control') }}">Drone traffic control</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='store_sales_overview') }}">Store sales overview</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='most_popular_products') }}">Most popular products</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_view', name='orders_in_progress') }}">Orders in progress</a>
     </div>
     <div class="container">
         <table class="table">

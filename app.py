@@ -47,13 +47,20 @@ def views():
     return render_template('views.html')
 
 @app.route("/views/<name>")
+def show_view(name):
+    cursor.execute(f"SHOW columns FROM {name}")
+    columns = [column[0] for column in cursor.fetchall()]
+    cursor.execute(f"select * from {name}")
+    rows = cursor.fetchall()
+    return render_template('views.html', columns = columns, rows=rows)
+
+@app.route('/tables/<name>')
 def show_table(name):
     cursor.execute(f"SHOW columns FROM {name}")
     columns = [column[0] for column in cursor.fetchall()]
     cursor.execute(f"select * from {name}")
     rows = cursor.fetchall()
-
-    return render_template('views.html', columns = columns, rows=rows)
+    return render_template('tables.html', columns = columns, rows=rows)
 
 
 
