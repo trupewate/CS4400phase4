@@ -22,15 +22,19 @@ app.config['MYSQL_DATABASE_DB'] = 'drone_dispatch'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
+
 conn = mysql.connect()
+db = mysql.get_db()
 cursor = conn.cursor()
-# cursor.execute("SHOW TABLES")
+
+#
+# print(cursor.fetchall())
 # print([table[0] for table in cursor.fetchall() if table[0] not in procedures and table[0] not in views])
 
 # cursor.execute("SELECT * from User")
 # data = cursor.fetchone()
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def home():
     return render_template('home.html')
 
@@ -62,6 +66,45 @@ def show_table(name):
     rows = cursor.fetchall()
     return render_template('tables.html', columns = columns, rows=rows)
 
+@app.route('/procedures/<name>', methods=['GET', 'POST'])
+def show_procedure(name):
+    if request.method == 'POST':
+        cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
+        columns = [column[0] for column in cursor.fetchall()]
+        args = []
+        for col in columns:
+            args.append(request.form.get(col))
+
+        print("arguments: ", args)
+        cursor.callproc(name, args = args)
+        message = cursor.fetchone()
+        print(f"Number of rows affected after calling {name}: ", message)
+
+        return render_template('procedures.html', columns=columns, name=name)
+    else:
+        cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
+        columns = [column[0] for column in cursor.fetchall()]
+
+    #remove the ip_
+
+    return render_template('procedures.html', columns = columns, name=name)
+
+@app.route('/procedures/<name>', methods=['POST'])
+def call_procedure(name):
+    if request.method == 'POST':
+        cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
+        columns = [column[0] for column in cursor.fetchall()]
+        args = []
+        for col in columns:
+            args.append(request.form.get(col))
+
+        cursor.callproc({name}, args = args)
+        message = cursor.fetchall()
+        print(f"after calling procedure {name}: ", message)
+
+        return render_template('procedures.html', columns=columns)
+    else:
+        return render_template('procedures.html', columns=columns)
 
 
 if __name__ == "__main__":

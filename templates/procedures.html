@@ -1,1 +1,46 @@
 {% extends 'base.html' %}
+
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='add_customer') }}">Add customer</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='remove_customer') }}">Remove customer</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='add_product') }}">Add product</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='remove_product') }}">Remove product</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='add_drone') }}">Add drone</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='remove_drone') }}">Remove drone</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='add_drone_pilot') }}">Add drone pilot</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='remove_drone_pilot') }}">Remove drone pilot</a>
+    </div>
+    <div class="row">
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='swap_drone_control') }}">Swap drone control</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='repair_refuel_drone') }}">Repair refuel drone</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='increase_customer_credits') }}">Increase customer credits</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='begin_order') }}">Begin order</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='add_order_line') }}">Add order line</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='deliver_order') }}">Deliver order</a>
+        <a class="col btn btn-primary" href="{{ url_for('show_procedure', name='cancel_order') }}">Cancel order</a>
+    </div>
+</div>
+<div class="container">
+    <div class="form-group">
+        {% if columns|length >= 1 %}
+        <form action="{{ url_for('show_procedure', name='remove_product')}}" method="POST">
+            {% for col in columns %}
+                <label for={{col}}>{{col}}</label>
+                <input type="text" id={{col}} name={{col}}><br>
+            {% endfor %}
+            {% if columns|length >= 1 %}
+                <input type="submit" value="Submit">
+            {% endif %}
+        </form>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
