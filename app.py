@@ -70,41 +70,28 @@ def show_table(name):
 def show_procedure(name):
     if request.method == 'POST':
         cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
-        columns = [column[0] for column in cursor.fetchall()]
+        columns = [column[0].replace("ip_", "") for column in cursor.fetchall()]
         args = []
         for col in columns:
             args.append(request.form.get(col))
 
         print("arguments: ", args)
-        cursor.callproc(name, args = args)
-        message = cursor.fetchone()
-        print(f"Number of rows affected after calling {name}: ", message)
+        try:
+            cursor.callproc(name, args = args)
+            rows_affected = cursor.rowcount
+            conn.commit()
+        except: 
+            rows_affected = "Error occured. Ensure that integer parameters are not strings."
+        print(f"Number of rows affected after calling {name}: ", rows_affected)
 
-        return render_template('procedures.html', columns=columns, name=name)
+        return render_template('procedures.html', columns=columns, name=name, rows_affected = rows_affected)
     else:
         cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
-        columns = [column[0] for column in cursor.fetchall()]
+        columns = [column[0].replace("ip_", "") for column in cursor.fetchall()]
 
     #remove the ip_
 
     return render_template('procedures.html', columns = columns, name=name)
-
-@app.route('/procedures/<name>', methods=['POST'])
-def call_procedure(name):
-    if request.method == 'POST':
-        cursor.execute(f"SELECT parameter_name FROM information_schema.parameters WHERE specific_schema = 'drone_dispatch' AND specific_name = '{name}'")
-        columns = [column[0] for column in cursor.fetchall()]
-        args = []
-        for col in columns:
-            args.append(request.form.get(col))
-
-        cursor.callproc({name}, args = args)
-        message = cursor.fetchall()
-        print(f"after calling procedure {name}: ", message)
-
-        return render_template('procedures.html', columns=columns)
-    else:
-        return render_template('procedures.html', columns=columns)
 
 
 if __name__ == "__main__":
